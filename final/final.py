@@ -381,18 +381,3 @@ print(portfolio_balanced[['Ticker', 'Company', 'Current Price', 'Sector', 'Reven
 
 print("\n=== Conservative Portfolio (Later Years) ===")
 print(portfolio_conservative[['Ticker', 'Company', 'Current Price', 'Sector', 'Dividend Yield', 'Beta']])
-
-# ----------------------------
-# OPTIONAL: Visualize the Clusters using t-SNE or PCA
-# ----------------------------
-# For example, using PCA:
-# from sklearn.decomposition import PCA
-
-# pca = PCA(n_components=2)
-# U_pca = pca.fit_transform(df_scaled)
-# plt.figure(figsize=(8, 6))
-# sns.scatterplot(x=U_pca[:, 0], y=U_pca[:, 1], hue=df_fin['Cluster'], palette='Set2', s=100)
-# plt.title("PCA of Standardized Financial Data Colored by Cluster")
-# plt.xlabel("PC 1")
-# plt.ylabel("PC 2")
-# plt.show()
