@@ -94,8 +94,8 @@ for ticker in tickers:
         "Revenue Growth": stock.info.get("revenueGrowth", np.nan), 
         "Profit Growth": stock.info.get("grossMargins", np.nan), 
         "Book Value per Share": stock.info.get("bookValue", np.nan),
-        "Beta": info.get("beta", np.nan),
-        "Dividend Yield": info.get("dividendYield", np.nan)
+        "Beta": stock.info.get("beta", np.nan),
+        "Dividend Yield": stock.info.get("dividendYield", np.nan)
     }
 
 df = pd.DataFrame.from_dict(financial_data, orient='index')
@@ -328,6 +328,12 @@ print(f"Balanced Clusters: {balanced_clusters}")
 def select_top_stocks(df, cluster, metric, top_n=5, ascending=False):
     subset = df[df['Cluster'] == cluster]
     selected = subset.sort_values(metric, ascending=ascending).head(top_n)
+    if len(selected) < 5:
+        subset = df[df['Cluster'] == 0]
+        selected = pd.concat([
+            selected,
+            subset.sort_values(metric, ascending=ascending).head(top_n - len(selected))
+        ])
     return selected
 
 portfolio_aggressive = select_top_stocks(df_fin, aggressive_cluster, 'Revenue Growth', top_n=5, ascending=False)
@@ -335,7 +341,7 @@ portfolio_conservative = select_top_stocks(df_fin, conservative_cluster, 'Divide
 
 balanced_list = []
 for cluster in balanced_clusters:
-    balanced_list.append(select_top_stocks(df_fin, cluster, 'Revenue Growth', top_n=3, ascending=False))
+    balanced_list.append(select_top_stocks(df_fin, cluster, 'Revenue Growth', top_n=5, ascending=False))
 if balanced_list:
     portfolio_balanced = pd.concat(balanced_list)
 else:
