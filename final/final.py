@@ -284,7 +284,9 @@ cluster_summary = df_fin.groupby('Cluster').agg({
     'Revenue Growth': 'mean',
     'Dividend Yield': 'mean',
     'EPS': 'mean',
-    'ROE': 'mean'
+    'ROE': 'mean',
+    'Profit Growth' : 'mean',
+    'Book Value per Share' : 'mean'
 }).reset_index()
 print("Cluster Summary:")
 print(cluster_summary)
